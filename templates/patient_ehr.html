@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard</title>
+  <style>
+    /* Add your CSS styling here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+      color: #007bff;
+    }
+    .info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .button-container button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .button-container button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Patient Dashboard</h1>
+  <div class="info">
+    <p>Welcome to your Patient Dashboard! Here, you can access your Electronic Health Records (EHR) securely and conveniently. EHR contains information about your medical history, treatments, medications, and more, all in one digital record.</p>
+    <p>Take control of your health by reviewing your EHR regularly and communicating with your healthcare provider about any questions or concerns you may have.</p>
+  </div>
+  <div class="button-container">
+    <a href="{% url 'view_ehr' %}"><button>View EHR</button></a>
+    <a href="{% url 'edit_ehr' %}"><button>Edit EHR</button></a>
+    <a href="{% url 'pending_requests' %}"><button>Pending Requests</button></a>
+  </div>
+</body>
+</html>

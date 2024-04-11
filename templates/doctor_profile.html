@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile</title>
+    <style>
+        /* Styles for container */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        /* Styles for current details container */
+        .current-details {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-details h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .current-details p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Styles for form container */
+        .form-container {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Current details container -->
+        <div class="current-details">
+            <h2>Current Profile Details</h2>
+            <!-- Display current doctor profile details if available -->
+            {% if current_doctor %}
+            <p><strong>Name:</strong> {{ current_doctor.name }}</p>
+            <p><strong>Email:</strong> {{ current_doctor.email }}</p>
+            <p><strong>Specification:</strong> {{ current_doctor.specification }}</p>
+            <p><strong>Location:</strong> {{ current_doctor.location }}</p>
+            <p><strong>Contact Information:</strong> {{ current_doctor.contact_information }}</p>
+            <p><strong>Profile Picture:</strong> <img src="{{ current_doctor.profile_picture.url }}" alt="Profile Picture" style="max-width: 200px;"></p>
+            <!-- Add more fields as needed -->
+            {% endif %}
+        </div>
+
+        <!-- Form container -->
+        <div class="form-container">
+            <h1>Doctor Profile</h1>
+
+            <!-- Form for creating a new doctor -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Input field for the email -->
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ current_doctor.email }}" required>
+
+                <!-- Input field for the specification -->
+                <label for="specification">Specification:</label>
+                <input type="text" id="specification" name="specification" value="{{ current_doctor.specification }}">
+
+                <!-- Input field for the location -->
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" value="{{ current_doctor.location }}">
+
+                <!-- Input field for the contact information -->
+                <label for="contact_information">Contact Information:</label>
+                <input type="text" id="contact_information" name="contact_information" value="{{ current_doctor.contact_information }}">
+
+                <!-- Input field for the profile picture -->
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture">
+
+                <!-- Submit button -->
+                <input type="submit" value="Update Profile">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

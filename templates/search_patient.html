@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Patients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px; /* Larger font size */
+            margin-bottom: 30px; /* Increased margin */
+        }
+        form {
+            text-align: center;
+            margin-bottom: 30px; /* Increased margin */
+        }
+        input[type="text"] {
+            padding: 15px; /* Increased padding */
+            width: 400px; /* Increased width */
+            border: 1px solid #ccc;
+            border-radius: 8px; /* Increased border radius */
+            font-size: 20px; /* Larger font size */
+            margin-right: 15px; /* Increased margin */
+        }
+        button[type="submit"] {
+            padding: 15px 30px; /* Increased padding */
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px; /* Increased border radius */
+            font-size: 20px; /* Larger font size */
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px; /* Increased border radius */
+            padding: 30px; /* Increased padding */
+            margin-bottom: 20px; /* Increased margin */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Increased box shadow */
+        }
+        li img {
+            max-width: 150px; /* Increased max-width */
+            max-height: 150px; /* Increased max-height */
+            border-radius: 50%;
+            margin-bottom: 20px; /* Increased margin */
+        }
+        strong {
+            font-weight: bold;
+            font-size: 20px; /* Larger font size */
+        }
+        p {
+            font-size: 24px; /* Larger font size */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Patients</h1>
+    <form method="GET">
+        <input type="text" name="username" placeholder="Enter username">
+        <button type="submit">Search</button>
+    </form>
+    {% if patients %}
+        <h2>Results for '{{ query }}':</h2>
+        <ul>
+            {% for patient in patients %}
+                <li>
+                    {% if patient.profile_picture %}
+                        <img src="{{ patient.profile_picture.url }}" alt="Profile Picture">
+                    {% endif %}
+                    <div>
+                        <strong>Name:</strong> {{ patient.name }}<br>
+                        <strong>Date of Birth:</strong> {{ patient.dob }}<br>
+                        <strong>Gender:</strong> {{ patient.gender }}<br>
+                        <strong>Location:</strong> {{ patient.location }}<br>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No patients found.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor EHR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        form {
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .edit-button {
+            background-color: #28a745;
+            font-size: 1em;
+            padding: 8px 16px;
+        }
+
+        .edit-button, .cancel-button {
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button:hover, .cancel-button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .pending-table td:last-child {
+            text-align: center;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #dc3545;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor EHR</h1>
+
+    <form method="GET">
+        <label for="search_query">Search Patient:</label>
+        <input type="text" id="search_query" name="search_query" value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if search_results %}
+        <h2>Search Results</h2>
+        <ul>
+            {% for patient in search_results %}
+                <li><strong style="font-size: 1.2em;">{{ patient.name }}</strong></li>
+                {% if patient.id in pending_patients %}
+                    <p class="pending">Pending Approval</p>
+                {% elif patient in approved_patients %}
+                    <form action="{% url 'doctor_edit' patient.id_id %}" method="get">
+                        {% csrf_token %}
+                        <input type="hidden" name="patient_id" value="{{ patient.id_id }}">
+                        <button type="submit" class="edit-button">Edit EHR</button>
+                    </form>
+                    <form action="{% url 'doctor_view' patient.id_id %}" method="get">
+                        {% csrf_token %}
+                        <input type="hidden" name="patient_id" value="{{ patient.id_id }}">
+                        <button type="submit" class="edit-button">View EHR</button>
+                    </form>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="send_request">
+                        <input type="hidden" name="patient_id" value="{{ patient.id_id }}">
+                        <button type="submit">Send Request</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-results">No search results found.</p>
+    {% endif %}
+
+    <h2>Pending Requests</h2>
+    {% if pending_requests %}
+        <table class="pending-table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in pending_requests %}
+                    <tr>
+                        <td>{{ request.patient.name }}</td> <!-- Access patient's name -->
+                        <td>{{ request.status }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="cancel">
+                                <input type="hidden" name="request_id" value="{{ request.id }}">
+                                <button type="submit" class="cancel-button">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-results">No pending requests</p>
+    {% endif %}
+</body>
+</html>

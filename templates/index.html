@@ -1,0 +1,65 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://static.turbosquid.com/Preview/001179/061/FE/3D-hospital-hallway_0.jpg'); /* Placeholder image URL */
+            background-size: cover;
+            background-position: center;
+            color: #000000;
+        }
+        .container {
+            width: 60%;
+            margin: 100px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .buttons button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Health Portal</h1>
+        <p>Electronic Health Records (EHR) provide a digital version of a patient's paper chart. They make information available instantly and securely to authorized users. EHRs can contain a patient's medical history, diagnoses, medications, treatment plans, immunization dates, allergies, radiology images, and laboratory test results.</p>
+        <p>Health is a state of complete physical, mental, and social well-being and not merely the absence of disease or infirmity. It is important to maintain good health through regular exercise, balanced nutrition, adequate sleep, and stress management.</p>
+        <div class="buttons">
+            <button onclick="location.href='/login'">Login</button>
+            <button onclick="location.href='/register'">Register</button>
+        </div>
+    </div>
+</body>
+</html>

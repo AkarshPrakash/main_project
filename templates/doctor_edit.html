@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Electronic Health Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .section-heading {
+            font-size: 1.2em;
+            color: #007bff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center; /* Center the text */
+            font-weight: bold; /* Make the text bold */
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Electronic Health Record</h1>
+    <form action="{% url 'doctor_edit' patient.id_id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="section-heading">Present Illness Details</div>
+        <label for="symptoms">Symptoms:</label>
+        <textarea id="symptoms" name="symptoms"></textarea>
+        <label for="vital_signs">Vital Signs:</label>
+        <textarea id="vital_signs" name="vital_signs"></textarea>
+
+        <div class="section-heading">Past Illness</div>
+        <label for="drug_history">Drug History:</label>
+        <textarea id="drug_history" name="drug_history"></textarea>
+        <label for="family_history">Family History:</label>
+        <textarea id="family_history" name="family_history"></textarea>
+        <label for="personal_history">Personal History:</label>
+        <textarea id="personal_history" name="personal_history"></textarea>
+
+        <div class="section-heading">Attachment</div>
+        <label for="xray_image">X-Ray Image:</label>
+        <input type="file" id="xray_image" name="xray_image">
+        <label for="lab_result_image">Lab Result Image:</label>
+        <input type="file" id="lab_result_image" name="lab_result_image">
+
+        <div class="section-heading">Notes</div>
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

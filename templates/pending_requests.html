@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button.accept {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        button.reject {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        button.cancel {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .no-requests {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pending Requests</h1>
+    {% if pending_requests %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in pending_requests %}
+                    <tr>
+                        <td>{{ request.doctor.name }}</td>
+                        <td>{{ request.status }}</td>
+                        <td class="button-container">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="request_id" value="{{ request.id }}">
+                                <button type="submit" class="accept" name="action" value="accept">Accept</button>
+                                <button type="submit" class="reject" name="action" value="reject">Reject</button>
+                                <button type="submit" class="cancel" name="action" value="cancel">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-requests">No pending requests</p>
+    {% endif %}
+    
+    {% if accepted_request %}
+        <h2>Accepted/Rejected Request Details</h2>
+        <p>Doctor: {{ accepted_request.doctor.name }}</p>
+        <p>Status: {{ accepted_request.status }}</p>
+        <div class="button-container">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="cancel">
+                <input type="hidden" name="request_id" value="{{ accepted_request.id }}">
+                <button type="submit" class="cancel">Cancel</button>
+            </form>
+        </div>
+    {% endif %}
+</body>
+</html>

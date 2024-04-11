@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Patient Homepage</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Load static files -->
+    {% load static %}
+    <!-- Link to your static CSS file -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}">
+    <!-- Google Font -->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <!-- Link to Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Additional CSS for styling */
+        body {
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar-right {
+            margin-right: 30px; /* Adjust the margin to move the profile picture and name more to the right */
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+        .profile-name {
+            font-size: 28px; /* Increase the font size of the name */
+            margin-right: 20px; 
+			color: #000;/* Add margin between profile picture and name */
+        }
+        .profile-img-large {
+            width: 100px; /* Adjust the width as needed */
+            height: 100px; /* Adjust the height as needed */
+            border-radius: 50%;
+			margin-right: 15px; /* Ensure the picture remains circular */
+        }
+        .main_heading {
+            margin-top: 30px; /* Add some space at the top */
+        }
+        .features-div {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px; /* Add some space between feature blocks */
+            border: 1px solid #ccc; /* Add border for better separation */
+            border-radius: 10px; /* Round the corners */
+            background-color: #f9f9f9; /* Light background color */
+        }
+        .features-div i {
+			display: block;
+            font-size: 36px;
+            margin-bottom: 10px;
+			color: #000;
+			 /* Add some space between icon and text */
+        }
+        .features-div h3 {
+            margin-bottom: 10px; /* Add some space between title and description */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header-div">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header logo-div bounceInLeft wow" data-wow-duration="2s">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse top-right-menu-ul bounceInRight wow" id="bs-example-navbar-collapse-1" data-wow-duration="4s">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            {% if user.is_authenticated %}
+                            <div class="profile-info">
+                                {% if patient.profile_picture %}
+                                <img src="{{ patient.profile_picture.url }}" alt="Profile Picture" class="profile-img-large"> <!-- Adjusted class name -->
+                                {% endif %}
+                                <span class="profile-name">{{ patient.name }}</span>
+                            </div>
+                            {% endif %}
+                        </li>
+                        <li><a href="index">Logout</a></li>
+                    </ul>
+                </div><!-- End navbar-collapse -->
+            </div><!-- End container -->
+        </nav>
+        <div class="container wow bounceInDown" data-wow-duration="2s">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 text-center slide-text">
+                    <h1>Patient Homepage</h1>
+                </div><!-- End col-md-8-->
+            </div><!-- End Row -->
+        </div><!-- End Contanier -->
+    </div><!-- End header-div -->
+
+    <!-- Feature -->
+    <div class="container" id="features">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main_heading">
+                    <div class="text-center"><span class="underline"></span></div>
+                </div>
+            </div><!-- End col-md-12 -->
+        </div><!-- End row -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-wheelchair" aria-hidden="true"></i>
+                    <a href="patient_appointment"><h3>Book Appointment</h3></a>
+                    <p>Book doctor appointment</p>
+                </div>
+            </div><!-- End col-md-3-->
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <a href="search_doctor"><h3>Search Doctors</h3></a>
+                    <p>Search Record of Doctors</p>
+                </div>
+            </div><!-- End col-md-3-->
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-flask" aria-hidden="true"></i>
+                    <a href="predict"><h3>Cancer Detection</h3></a>
+                    <p>Predict lung Cancer</p>
+                </div>
+            </div><!-- End col-md-3-->
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <a href="patient_ehr"><h3>View Medical Record</h3></a>
+                    <p>View and edit Medical Record</p>
+                </div>
+            </div><!-- End col-md-3-->
+        </div><!-- End row -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    <a href="patient_profile"><h3>View Profile</h3></a>
+                    <p>View patient details</p>
+                </div>
+            </div><!-- End col-md-3-->
+            <div class="col-md-3 col-sm-6">
+                <div class="features-div">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <a href="aeslsb"><h3>AES-LSB</h3></a>
+                    <p>AES-LSB Encryption</p>
+                </div>
+            </div><!-- End col-md-3-->
+        </div><!-- End row -->
+    </div><!-- End Container -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 footer-copyright">
+                    <!-- Footer content here -->
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Load JS -->
+    <!-- Place your JavaScript code here -->
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Electronic Health Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .section-heading {
+            font-weight: bold;
+            text-align: center; /* Center the text */
+            color: #007bff; /* Set color for section headings */
+        }
+
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+            display: block;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Electronic Health Record</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="ehr">Select EHR to Edit:</label>
+        <select id="ehr" name="ehr_id">
+            <option value="">Create New EHR</option>
+            {% for ehr in patient_ehrs %}
+                <option value="{{ ehr.id }}">{{ ehr.id }}</option>
+            {% endfor %}
+        </select>
+
+        <label class="section-heading">Present Illness Details</label>
+        <label for="symptoms">Symptoms:</label>
+        <textarea id="symptoms" name="symptoms"></textarea>
+        <label for="vital_signs">Vital Signs:</label>
+        <textarea id="vital_signs" name="vital_signs"></textarea>
+
+        <label class="section-heading">Past Illness</label>
+        <label for="drug_history">Drug History:</label>
+        <textarea id="drug_history" name="drug_history"></textarea>
+        <label for="family_history">Family History:</label>
+        <textarea id="family_history" name="family_history"></textarea>
+        <label for="personal_history">Personal History:</label>
+        <textarea id="personal_history" name="personal_history"></textarea>
+
+        <label class="section-heading">Attachment</label>
+        <label for="xray_image">X-Ray Image:</label>
+        <input type="file" id="xray_image" name="xray_image">
+        <label for="lab_result_image">Lab Result Image:</label>
+        <input type="file" id="lab_result_image" name="lab_result_image">
+
+        <label class="section-heading">Notes</label>
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

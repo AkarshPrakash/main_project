@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View EHR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        strong {
+            color: #007bff;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Electronic Health Records</h1>
+    <ul>
+        {% for ehr in ehrs %}
+            <li>
+                <strong>ID:</strong> {{ ehr.id }}<br>
+                <strong>Last Modified:</strong> {{ ehr.last_modified }}<br>
+                <strong>Doctor Name:</strong> {{ ehr.doctor.name }}<br>
+                <strong>Symptoms:</strong> {{ ehr.symptoms }}<br>
+                <strong>Diagnosis:</strong> {{ ehr.diagnosis }}<br>
+                <strong>Medications:</strong> {{ ehr.medications }}<br>
+                <strong>Allergies:</strong> {{ ehr.allergies }}<br>
+                <strong>Personal History:</strong> {{ ehr.personal_history }}<br>
+                <strong>Family History:</strong> {{ ehr.family_history }}<br>
+                <strong>Drug History:</strong> {{ ehr.drug_history }}<br>
+                <strong>Vital Signs:</strong> {{ ehr.vital_signs }}<br>
+                <strong>Notes:</strong> {{ ehr.notes }}<br>
+                {% if ehr.xray_image %}
+                    <img src="{{ ehr.xray_image.url }}" alt="X-Ray Image">
+                {% endif %}
+                {% if ehr.lab_result_image %}
+                    <img src="{{ ehr.lab_result_image.url }}" alt="Lab Result Image">
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

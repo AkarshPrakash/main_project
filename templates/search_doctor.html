@@ -1,0 +1,100 @@
+<!-- search_doctor.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Doctors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+        form {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            padding: 15px;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        button[type="submit"] {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        li img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        strong {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        p {
+            font-size: 24px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Doctors</h1>
+    <form method="GET">
+        <input type="text" name="username" placeholder="Enter username">
+        <button type="submit">Search</button>
+    </form>
+    {% if doctors %}
+        <h2>Results for '{{ query }}':</h2>
+        <ul>
+            {% for doctor in doctors %}
+                <li>
+                    {% if doctor.profile_picture %}
+                        <img src="{{ doctor.profile_picture.url }}" alt="Profile Picture">
+                    {% endif %}
+                    <div>
+                        <strong>Name:</strong> {{ doctor.name }}<br>
+                        <strong>Specialization:</strong> {{ doctor.specification }}<br>
+                        <strong>Contact Information:</strong> {{ doctor.contact_information }}<br> <!-- Add contact information -->
+                        <strong>Location:</strong> {{ doctor.location }}<br> <!-- Add location -->
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No doctors found.</p>
+    {% endif %}
+</body>
+</html>
