@@ -34,7 +34,7 @@ class Efficient(nn.Module):
         x = self.fc(x)
         x = self.reg_model(x)
         return x
-
+'''
 def predict_image(image_path, class_names):
     app_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(app_dir, 'models', 'EfficientNet_CT_Scans.pth.tar')
@@ -57,3 +57,42 @@ def predict_image(image_path, class_names):
         predicted_class = class_names[predicted.item()]
 
     return predicted_class
+'''
+import requests
+from io import BytesIO
+import boto3
+
+def predict_image(image_url, class_names):
+    # Initialize S3 client
+    s3 = boto3.client('s3')
+
+    # S3 bucket and model path
+    bucket_name = 'ehrstorage'
+    model_key = 'models/EfficientNet_CT_Scans.pth.tar'  # Adjust this according to your S3 folder structure
+
+    # Download model file from S3
+    model_object = s3.get_object(Bucket=bucket_name, Key=model_key)
+    model_bytes = model_object['Body'].read()
+
+    # Load model
+    model = Efficient(num_classes=len(class_names))
+    model.load_state_dict(torch.load(BytesIO(model_bytes), map_location=torch.device('cpu')))
+    model.eval()
+
+    response = requests.get(image_url)
+    img = Image.open(BytesIO(response.content)).convert('RGB')
+    preprocess = transform.Compose([
+        transform.Resize(size=(224, 224)),
+        transform.ToTensor(),
+        transform.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    ])
+    img_tensor = preprocess(img)
+    img_tensor = img_tensor.unsqueeze(0)
+
+    with torch.no_grad():
+        outputs = model(img_tensor)
+        _, predicted = torch.max(outputs, 1)
+        predicted_class = class_names[predicted.item()]
+
+    return predicted_class
+

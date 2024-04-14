@@ -14,7 +14,7 @@ class Patient(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     location = models.CharField(max_length=100)
-    profile_picture = models.ImageField(upload_to='patient_profile_pics', null=True, blank=True,storage=S3Boto3Storage())
+    profile_picture = models.ImageField(upload_to='patient_profile_pics', null=True, blank=True)
     user_id = models.CharField(max_length=20, unique=True, null=False, default=1)
     contact_information = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)  # New email field
@@ -28,7 +28,7 @@ class Doctor(models.Model):
     user_id = models.CharField(max_length=20, unique=True, null=False, default=10000)
     name = models.CharField(max_length=100)
     specification = models.CharField(max_length=100)
-    profile_picture = models.ImageField(upload_to='doctor_profile_pics', null=True, blank=True,storage=S3Boto3Storage())
+    profile_picture = models.ImageField(upload_to='doctor_profile_pics', null=True, blank=True)
     location = models.CharField(max_length=255, null=True, blank=True)  # Location field
     contact_information = models.CharField(max_length=255, null=True, blank=True)  # Contact information field
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)  # New email field
@@ -70,8 +70,8 @@ class EHR(models.Model):
     drug_history = models.TextField(blank=True)
     vital_signs = models.TextField(blank=True)
     notes = models.TextField(blank=True)
-    xray_image = models.ImageField(upload_to='ehr/xray/', blank=True,storage=S3Boto3Storage())
-    lab_result_image = models.ImageField(upload_to='ehr/lab_result/', blank=True,storage=S3Boto3Storage())
+    xray_image = models.ImageField(upload_to='ehr/xray/')
+    lab_result_image = models.ImageField(upload_to='ehr/lab_result/')
 
 
 
