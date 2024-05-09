@@ -6,6 +6,9 @@ from PIL import Image
 import torchvision.models as models
 from efficientnet_pytorch import EfficientNet
 import torch.nn as nn
+import requests
+from io import BytesIO
+import boto3
 
 class Efficient(nn.Module):
     def __init__(self, num_classes=1):
@@ -34,8 +37,8 @@ class Efficient(nn.Module):
         x = self.fc(x)
         x = self.reg_model(x)
         return x
-'''
-def predict_image(image_path, class_names):
+
+def predict_image(image_url, class_names):
     app_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(app_dir, 'models', 'EfficientNet_CT_Scans.pth.tar')
 
@@ -43,7 +46,8 @@ def predict_image(image_path, class_names):
     model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     model.eval()
 
-    img = Image.open(image_path).convert('RGB')
+    response = requests.get(image_url)
+    img = Image.open(BytesIO(response.content)).convert('RGB')
     preprocess = transform.Compose([transform.Resize(size=(224, 224)),
                                     transform.ToTensor(),
                                     transform.Normalize(mean=[0.485, 0.456, 0.406],
@@ -95,4 +99,4 @@ def predict_image(image_url, class_names):
         predicted_class = class_names[predicted.item()]
 
     return predicted_class
-
+'''

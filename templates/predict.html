@@ -55,11 +55,17 @@
 
         .result {
             display: none;
+            margin-top: 20px;
         }
 
         .result.visible {
             display: block;
             animation: fadeIn 0.5s;
+        }
+
+        .preview img {
+            max-width: 100%;
+            margin-top: 10px;
         }
 
         @keyframes fadeIn {
@@ -75,15 +81,38 @@
 <body>
     <div class="container">
         <h2>Upload CT-SCAN</h2>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
             {% csrf_token %}
-            {{ form.as_p }}
+            <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
             <button type="submit">Upload</button>
         </form>
+        <div class="preview" id="imagePreview"></div>
         <div class="result {% if prediction %}visible{% endif %}">
             <h2>Prediction Result</h2>
             <p>{{ prediction }}</p>
         </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            var image = document.getElementById('imagePreview');
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                var img = new Image();
+                img.src = reader.result;
+                image.innerHTML = '';
+                image.appendChild(img);
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </body>
 </html>
+
+
+

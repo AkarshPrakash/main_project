@@ -150,11 +150,13 @@ AUTH_USER_MODEL = 'reg.CustomUser'
 MEDIA_URL = '/media/'
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+import os
+from dotenv import load_dotenv
+import boto3
 
 
-
-AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID '
-AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = 'ehrstorage'
 AWS_S3_SIGNATURE_NAME = 's3v4',
 AWS_S3_REGION_NAME = 'eu-north-1'
@@ -174,7 +176,24 @@ AWS_S3_REGION_NAME = 'eu-north-1'
 import boto3
 
 # Configure AWS credentials
+'''
 boto3.setup_default_session(
-    AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID ',
-    AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY',
+    aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY']
 )
+'''
+
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Check if environment variables for AWS credentials are set
+if 'AWS_ACCESS_KEY_ID' in os.environ and 'AWS_SECRET_ACCESS_KEY' in os.environ:
+    # Set up the default session using environment variables
+    boto3.setup_default_session(
+        aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY']
+    )
+else:
+    # If AWS credentials environment variables are not set, raise an error
+    raise EnvironmentError("AWS credentials environment variables are not set")
